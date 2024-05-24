@@ -1,0 +1,107 @@
+SEZ 1 : intro
+Sezione 2 è background, non rilevante
+La sezione 7 sarà inclusa in presentazione solo se avanza spazio.
+
+SEZ 2
+unique name axioms: per azioni e situazioni. e per gli ogetti?
+
+assunzioni: completezza
+            assenza di vincoli di stato (interazioni tra fluenti)
+
+SEZ 3
+K(s', s): relazione di accessibilità, trattata come un normale fluente in sit. calc.
+    "in situazione s, in base a quello che so, potrei anche essere in s'"
+    quindi, l'agente può "confondere" s' con s, per quanto ne sa.
+    deve essere riflessivo
+
+Definizione di conoscenza: una cosa è nota in s se è vera in ogni situazione accessibile da s
+
+Azioni che producono conoscenza: SENSE_P informa sul valore di verità del fluente P
+                                 READ_T informa sul termine T
+
+SEZ 4
+prima di eseguire un'azione (non di conoscenza):
+    puoi essere in qualsiasi mondo accessibile a quello di partenza
+dopo averla eseguita: puoi essere in qualsiasi mondo che è un risultato di quell'azione
+    eseguita in un mondo accessibile a quello di partenza
+in ogni caso, sai che l'azione è stata certamente eseguita, perché ogni mondo accessibile adesso
+è un risultato di quell'azione
+
+solo gli effetti di un'azione (non di conoscenza) possono essere conosciuti nel successore
+gli altri fluenti non sono cambiati, quindi hai esattamente la stessa incertezza di prima
+
+prima di eseguire un'azione (di tipo SENSE):
+    puoi essere in qualsiasi mondo accessibile a quello di partenza
+dopo averla eseguita: puoi essere in qualsiasi mondo che è un risultato di quell'azione
+    eseguita in un mondo accessibile a quello di partenza E che ha lo stesso valore di verità
+    per il fluente SENSEato
+quindi sai non solo che l'azione è stata eseguita, ma anche il valore di verità del fluente,
+perché per definizione puoi confonderti solo tra situazioni che hanno lo stesso valore di verità
+per il fluente in questione
+
+il risultato dell'azione sensoriale è definito da una funzione SR e un assioma risultato-sensoriale
+per ogni azione (anche azioni non sensoriali, nel qual caso il risultato può tranquillamente
+essere costante e irrilevante)
+per le azioni SENSE, invece il risulato è "YES"/"NO"
+vale anche per le azioni READ, il cui risultato è direttamente la denotazione del termine READato
+
+(18): definizione generale dell'assioma di stato successore per K
+
+azioni ordinarie e di conoscenza sono strettamente separate:
+    un'azione o influenza K, o altri fluenti
+    (questa è una politica adottata)
+
+SEZ 6
+teorema 1: "effetti di conoscenza"
+    i fluenti non di conoscenza non vengono cambiati da azioni di conoscenza
+dim: triviale
+
+teorema 2: "persistenza dell'ignoranza"
+    se non hai la conoscenza di P in s, continui a non averla nel successore,
+    a meno che non esegui un'azione che ha P come effetto
+    oppure non esegui un'azione di conoscenza il cui risult. ti implica P (qualunque sia il risult.)
+dim: pag 14, è corta
+
+teorema 3: "integrazione della conoscenza"
+    se sai che una certa azione (di conoscenza) ti permette di conoscere la verità di F,
+    e sai che da quella conoscenza puoi anche conoscere la verità di P,
+    allora dopo aver eseguito l'azione in questione conosci anche la verità di P.
+dim: pag 15-16, lunghetta
+
+teorema 4: "memoria"
+    una volta che conosci P in s, continui a conoscerlo nei successori
+    a meno che non esegui un'azione che potenzialmente lo influenza
+dim: pag 16, cortissima
+    Knows(P,s) vuol dire che P è vero in ogni stato confindibile con s.
+    Ogni stato confindibile col successore è successore di uno confondibile con s.
+    Per ipotesi, P(do(a,s)) iff P(s).
+    Quidni P è vero in ogni stato confondibile con successore, e quindi è conosciuto.
+
+teorema 5: "conoscenza degli effetti"
+    se c'è una condizione oggettiva per cui l'azione a ha come effetto la verità di P,
+    e sai che tale condizione è vera adesso, in s,
+    allora sai che P sarà vero se esegui a.
+dim: pag 16-17, lunghetta
+
+SEZ 8
+8.1: definizione di regressione
+    (i): caso base: atomi non-fluenti o fluenti con situazione s0 regrediscono in se stessi
+    (ii a): fluenti ordinari (non-K) regrediscono secondo il loro assioma di stato successore
+    (ii b): anche le uguaglianze con fluenti funzionali
+    (ii c): gli atomi POSS(a,s) regrediscono secondo l'assioma di precondizione dell'azione a
+    (ii d): le uguaglianze con la funzione SR fanno regredire la corrispondente condizione
+            che avrebbe dato quel risultato
+    (iii): la negazione e i quantificatori di portano fuori dall'operatore di regressione banalmente
+    (iv): la regressione si distribuisce banalmente su congiunzione, disgiunzione e implicazione
+    (v): se a è un'azione non di conoscenza, la conoscenza di un effetto regredisce nella conoscenza
+         di predondizioni delle azioni -> regressione dell'effetto
+    (vi): se invece viene eseguita un'azioen di conoscenza, la regressione di knows
+          è comunque simile, ma inlcude anche il risultato sensoriale
+Teorema 7: quello che vogliamo: ragionare su una condizione nella sit. do(do(do(...)))
+           è equivalente a ragionare sulla regressione totale
+dim: pag 25-27, lunghissima
+
+
+
+
+IN LINEA DI MASSIMA, senza leggere, potremmo pensare che una metà paper è sez. 2-4, l'altra è 6-8
