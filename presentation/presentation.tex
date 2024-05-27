@@ -1,32 +1,41 @@
 \documentclass{beamer}
 
-\usepackage{amsfonts,amsmath,oldgerm}
-\usepackage{mathtools}
-\usepackage{algpseudocode}
-\usepackage{tikz}
-\newcommand\norm[1]{\lVert#1\rVert}
-\usetikzlibrary{shapes,arrows, positioning, calc}  
-\usepackage{xcolor}
-\usepackage{tcolorbox}
-\usepackage{tabularx}
-\usepackage{array}
-\usepackage{colortbl}
-\usepackage{adjustbox}
-\usepackage{animate}
-\tcbuselibrary{skins}
-
+% Theme
 \usepackage[T1]{fontenc}
 \usepackage[default]{gillius}
+\usetheme{sintef}
 
-\newcolumntype{Y}{>{\raggedleft\arraybackslash}X}
+% Math
+\usepackage{amsfonts,amsmath,oldgerm}
+\usepackage{mathtools}
+\usefonttheme[onlymath]{serif}
+\newcommand\norm[1]{\lVert#1\rVert}
 
+% Code
+\usepackage{algpseudocode}
+
+% Figures
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Tables
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{colortbl}
+
+% Boxes
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{adjustbox}
+\tcbuselibrary{skins}
 \tcbset{tab2/.style={enhanced,fonttitle=\bfseries,fontupper=\small\sffamily,
 colback=yellow!10!white,colframe=red!50!black,colbacktitle=Salmon!40!white,
 coltitle=black,center title}}
 
-\usetheme{sintef}
-
-\newcommand{\testcolor}[1]{\colorbox{#1}{\textcolor{#1}{test}}~\texttt{#1}}
+% Shapes
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows, positioning, calc}  
 \newcommand{\greenplus}[0]{\begin{tikzpicture}
     \draw[green, line width=5pt] (-0.01,0) -- (0.01,0);
     \draw[green, line width=5pt] (0,-0.01) -- (0,0.01);
@@ -37,27 +46,50 @@ coltitle=black,center title}}
     \node[minimum width=0.2cm] at (current bounding box.east) {};
 \end{tikzpicture}}
 
-\usefonttheme[onlymath]{serif}
-
-\titlebackground*{assets/background}
-
+% Random commands
+\newcolumntype{Y}{>{\raggedleft\arraybackslash}X}
 \newcommand{\hrefcol}[2]{\textcolor{cyan}{\href{#1}{#2}}}
-
+\newcommand{\testcolor}[1]{\colorbox{#1}{\textcolor{#1}{test}}~\texttt{#1}}
 \newcommand*{\defeq}{\stackrel{\text{def}}{=}}  % https://latex.org/forum/viewtopic.php?t=15406
 \newcommand*{\textfluent}[1]{\text{#1}}  % idealmente metterei \textsc come nel paper, ma sembra che il font attuale non lo supporti.
                                          % definisco un comando, così se riusciamo a trovare un fix si sistema tutto, tutto insieme
 
+\titlebackground*{assets/background}
+
 \title{Knowledge, action, and the frame problem}
 \subtitle{Boh}
 \course{Boh}
+\title{Knowledge, action, and the frame problem}
+\course{Reasoning about Actions}
 \author{Boh}
 \date{Boh}
 
 \begin{document}
 \maketitle
 
+\section{}
+\begin{frame}{Introduction}
+\end{frame}
 
+\footlinecolor{sintefyellow}
+\section{Scherl and Levesque's Approach}
 \input{FRANCESCO.TEX}
+
+
+\footlinecolor{sintefgreen}
+\section{Example: The Gardening Robot}
+
+\begin{frame}{Statement}
+    \greenplus{The robot has to water 3 plants.}
+\end{frame}
+
+\footlinecolor{sinteflilla}
+\section{The projection problem}
+
+\begin{frame}{Boh}
+\end{frame}
+
+\footlinecolor{}
 
 \backmatter
 \end{document}
