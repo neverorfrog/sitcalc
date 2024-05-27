@@ -1,0 +1,46 @@
+%!TEX root = presentation.tex
+
+\section{Introduction}
+
+\begin{frame}{Outline}
+    Situation calculus provides a framework for reasoning about actions.
+
+    This work presents an expansion to handle the \textit{knowledge} possessed or acquired by the agent,
+    and allow it to shape the agent's decisions.
+    \begin{itemize}%[<+->]
+        \item Knowledge is represented by one additional fluent
+        \item Uniform axiomatization with the rest of sitcalc
+        \item Ordinary actions and knowledge-producing ones are strictly separated
+        \item Easy expansion of regression as defined in [Reiter2001]
+        \item Desirable properties are direct consequences of the axiomatization \\
+                (e.g. knowledge persistence / memory)
+    \end{itemize}
+\end{frame}
+
+% opzionale
+\begin{frame}{...}
+    Opzionale
+
+    Un paio di azioni ordinarie e un paio di azioni di conoscenza di esempio, giusto per inquadrare il discorso
+\end{frame}
+
+\section{Knowledge as a fluent}
+
+\begin{frame}{The K fluent}
+    \( \textfluent{K}(s', s) \)
+
+    Defines an accessibility relation between situations.
+
+    % Informal definition: \( \textfluent{K}(s', s) \) is true if, given its current knowledge,
+    % the situations \(s\) and \(s'\) are indistinguishable to the agent.
+
+    Informal definition: \( \textfluent{K}(s',s) \) is true if, an agent in situation \(s\)
+    could mistake the current situation for the other \(s'\), given its current knowledge.
+\end{frame}
+
+\begin{frame}{Knowledge}
+    A fluent is known to be true (false) in a situation \(s\) if and only if it is true (false)
+    in all situations accessible from \(s\).
+
+    Shorthand notation: \( \textbf{Knows}(\phi, s) \defeq \forall s' \: \textfluent{K}(s',s) \rightarrow \phi(s') \)
+\end{frame}
