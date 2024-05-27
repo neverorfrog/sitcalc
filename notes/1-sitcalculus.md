@@ -43,6 +43,23 @@ Formally:
 - $ \neg OnIsland(p, do(leave(p), s))$
   - The effect of leaving is not being on the island anymore
 
-## Slide 18 - Frame Axioms
-- Axioms that tell us what does not change as a consequence of an action
-- Opposed to effect axioms
+## Slide 18 - Frame Problem
+- Frame axioms tell us what does not change as a consequence of an action
+- How do we get to a concise representation of frame axioms from effect axioms?
+  - Main premise is that very few actions influence a fluent
+  - We want to capture all the circumstances for which on object breaks following a certain action
+  1) Object can break either if it is dropped and it's fragile, or if a bomb explodes near it: expressing the effect axioms in normal form
+      - $ (\exists r.a=drop(r,x) \land Fragile(x)) \lor (\exists b.a=explode(b) \land NearTo(b,x,s)) \supset Broken(x,do(a,s))$
+      - $ \Phi_F^+(x,a,s) \supset F(x,do(a,s))$
+  2) If an object is not broken in situation s and is instead broken after $do(a,s)$ we can deduce that it was either dropped or a bomb exploded near it: causal completeness assumption, expressing the effect axioms as explanation closure axioms
+      - $\neg broken(x,s) \land broken(x,do(a,s)) \supset (fragile(x,s) \land \exists r.a=drop(r,x)) \lor (nextTo(b,x,s) \land \exists b.a=explode(b))$
+      - $\neg F(x,s) \land F(x,do(a,s)) \supset \Phi_F^+(x,a,s)$
+  3) Object is broken if $\Phi_F^+(x,a,s)$ is true, or if it is already broken and $\Phi_F^-(x,a,s)$ is true
+      - $Broken(x,do(a,s)) \equiv (\exists r.a=drop(r,x) \land Fragile(x)) \lor (\exists b.a=explode(b) \land NearTo(b,x,s)) \lor Broken(x,s) \land \neg \exists r.a = repair(r,x)$
+      - $F(x,do(a,s)) \equiv \Phi_F^+(x,a,s) \lor F(x,s) \land \neg \Phi_F^-(x,a,s)$
+  - We want to capture all the circumstances for which an object is repaired
+    - Suppose an object can be repaired if it is broken
+    - If an object is broken in situation s and is not borken after $do(a,s)$ we can dedue that it was repaired
+    - $broken(x,s) \land \neg broken(x,do(a,s)) \supset \exists r.a = repair(r,x)$
+    - Same reasoning as above...
+
