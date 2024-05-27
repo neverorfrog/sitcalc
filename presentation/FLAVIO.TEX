@@ -1,0 +1,66 @@
+
+\begin{frame}{The Problem}
+    \begin{itemize}
+        \item A robot has to manage some plants in a garden.
+        \item The robot can perform an action on one plant at a time and only if it's near the plant.
+        \item A plant can be watered only if it is dry. The plant's humidity can be inspected.
+        \item The robot has a water tank with unlimited capacity.
+    \end{itemize}
+\end{frame}
+
+\subsection{Axiomatization}
+
+\begin{frame}[fragile]{Fluents and Actions}
+    \begin{block}{Fluents}
+        \begin{itemize}
+            \item $Near(x,s) \rightarrow$ Robot is near plant x in situation s
+            \item $Humidity(x,s) \rightarrow$ Humidity of plant x in situation s
+            \item $Infested(x,s) \rightarrow$ Plant x is infested by bugs in situation s
+            \item $Healthy(x,s) \rightarrow$ Plant x is healthy in situation s
+        \end{itemize}
+    \end{block}
+    \begin{block}{Actions}
+        \begin{itemize}
+            \item $Treat(x,s) \rightarrow$ Treat plant x in situation s
+            \item $Water(x,s) \rightarrow$ Water plant x in situation s
+            \item $GoTo(x) \rightarrow$ Go to plant x
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Successor State Axioms}
+    In general $F(x,do(\alpha,s)) \equiv \Phi_F^+(x,a,s) \lor (F(x,s) \land \neg \Phi_F^-(x,a,s))$
+    \vspace*{0.5cm}
+    \begin{itemize}
+        \item $Near(x,do(\alpha,s)) \equiv \alpha = GoTo(x) \lor \left( Near(x,s) \land \neg \exists y.\alpha=GoTo(y)\right)$
+        \item $Healthy$?
+        \item $Humidity(x,do(\alpha,s))=h \equiv Humidity(x,s)=h$
+        \item $Infested(x,do(\alpha,s))=h \equiv Infested(x,s)=i$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Initial State}
+    \begin{itemize}
+        \item 
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Precondition Axioms}
+    
+\end{frame}
+
+\begin{frame}{Sensing Result Axioms}
+    
+\end{frame}
+
+\subsection{Considerations on theorems}
+
+\begin{frame}{Boh}
+    
+\end{frame}
+
+\subsection{Golog}
+
+\begin{frame}{Boh}
+    
+\end{frame}
