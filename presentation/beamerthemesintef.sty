@@ -136,21 +136,24 @@
 	\endgroup
 }
 
-% Put the logo in each slide's top left area
-\setbeamertemplate{headline}{
-  \hspace{0.06\textwidth}\pgfuseimage{\@logo}
-  \leavevmode
-  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=6ex]{section in head/foot}
-    \usebeamerfont{framesubtitle}\insertsubsectionhead
-  \end{beamercolorbox}
-}
-
-% Define frame title and subtitle layout
+% Define frame title and subtitle layout (with logo)
 \setbeamertemplate{frametitle}{%
-  \vspace*{-5ex}
-  \begin{beamercolorbox}[leftskip=2cm]{frametitle}%
-    \usebeamerfont{frametitle}\insertframetitle
-  \end{beamercolorbox}
+  \leavevmode
+  \vbox{
+    \begin{beamercolorbox}[wd=.7\paperwidth,ht=5ex,dp=2ex,left]{frametitle}%
+      \hspace*{-0.48cm}
+      \usebeamerfont{subtitle} \insertsubsectionhead \\
+      \hspace*{-0.5cm}
+      \usebeamerfont{frametitle} \insertframetitle
+    \end{beamercolorbox}
+    \vskip-35pt
+    \hbox{
+      \hskip250pt
+      \begin{beamercolorbox}[wd=.25\paperwidth,ht=5ex,dp=1ex,right]{frametitle}%
+        \pgfuseimage{\@logo}
+      \end{beamercolorbox}%
+    }
+  } 
 }
 
 \def\@courseLabel{}
