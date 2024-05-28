@@ -53,9 +53,15 @@ coltitle=black,center title}}
 \newcommand{\hrefcol}[2]{\textcolor{cyan}{\href{#1}{#2}}}
 \newcommand{\testcolor}[1]{\colorbox{#1}{\textcolor{#1}{test}}~\texttt{#1}}
 \newcommand*{\defeq}{\stackrel{\text{def}}{=}}  % https://latex.org/forum/viewtopic.php?t=15406
-\newcommand*{\textfluent}[1]{\textsc{#1}}  % idealmente metterei \textsc come nel paper, ma sembra che il font attuale non lo supporti.
-                                            % definisco un comando, così se riusciamo a trovare un fix si sistema tutto, tutto insieme
+\newcommand*{\textfluent}[1]{\textsc{#1}}
+% comandi per le parole più comuni
+\newcommand*{\sck}{\textfluent{K}}
 \newcommand*{\knows}{\textbf{Knows}}
+\newcommand*{\scdo}{\textfluent{do}}
+\newcommand*{\scsense}{\textfluent{sense}}
+\newcommand*{\scread}{\textfluent{read}}
+\newcommand*{\scdrop}{\textfluent{drop}}
+\newcommand*{\scposs}{\textfluent{Poss}}
 
 \titlebackground*{assets/background}
 

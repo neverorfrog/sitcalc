@@ -1,5 +1,8 @@
 %!TEX root = presentation.tex
 
+% memo: mille modi per centrare
+% https://tex.stackexchange.com/questions/449578/basic-how-can-i-stop-centering-a-text
+
 \subsection{Introduction}
 
 \begin{frame}{Outline}
@@ -28,16 +31,16 @@
 
 \begin{frame}[fragile]{The K fluent}
     \huge
-    \[ \textfluent{K}(s', s) \]
+    \[ \sck(s', s) \]
     \normalsize
 
     Defines an accessibility relation between situations.
 
-    % Informal definition: \( \textfluent{K}(s', s) \) is true if, given its current knowledge,
+    % Informal definition: \( \sck(s', s) \) is true if, given its current knowledge,
     % the situations \(s\) and \(s'\) are indistinguishable to the agent.
 
     \begin{block}{(Informal) definition}
-        \( \textfluent{K}(s',s) \) is true if an agent in situation \(s\)
+        \( \sck(s',s) \) is true if an agent in situation \(s\)
         could mistake the current situation for the other \(s'\),
         given its current knowledge.
     \end{block}
@@ -50,7 +53,7 @@
         in all situations accessible from \(s\).
     \end{block}
 
-    Shorthand notation: \( \knows(\phi, s) \defeq \forall s' \: \textfluent{K}(s',s) \rightarrow \phi(s') \)
+    Shorthand notation: \( \knows(\phi, s) \defeq \forall s' \: \sck(s',s) \rightarrow \phi(s') \)
 \end{frame}
 
 \begin{frame}{Knowledge-producing actions}
@@ -60,9 +63,9 @@
         % Learn whether a fluent is true or false. Example: check if a door is open or closed.
         Learn the truth value of a formula. Example: check if a door is open or closed.
         \[
-            \knows(\textfluent{P}, \textfluent{do}(\textfluent{sense}_\text{P}, s))
+            \knows(\textfluent{P}, \scdo(\scsense_\text{P}, s))
             \lor
-            \knows(\lnot \textfluent{P}, \textfluent{do}(\textfluent{sense}_\text{P}, s))
+            \knows(\lnot \textfluent{P}, \scdo(\scsense_\text{P}, s))
         \]
     \end{block}
 
@@ -70,17 +73,17 @@
         % Learn what a functional term refers to. Example: read a number on a sheet of paper.
         Learn the value of a term. Example: read a number on a sheet of paper.
         \[
-            \exists x \: \knows(\tau = x, \textfluent{do}(\textfluent{read}_\tau, s))
+            \exists x \: \knows(\tau = x, \scdo(\scread_\tau, s))
         \]
     \end{block}
 
     \emph{Assumption: ordinary and knowledge-producing actions are strictly separated.}
 \end{frame}
 
-\subsection{Knowledge effects}
+\subsection{Defining a successor state axiom for K}
 
-\begin{frame}{Towards a successor state axiom for K}
-    In order to complete the specification of the \textfluent{K} fluent,
+\begin{frame}{Knowledge effects}
+    In order to complete the specification of the \sck fluent,
     we need to define its successor state axiom,
     determining how ordinary actions and knowledge-producing actions affect it.
 
@@ -91,6 +94,20 @@
     \end{center}
 
     \[ \knows(\textfluent{P}, S1) \land \lnot \knows(\textfluent{Q}, S1) \]
+\end{frame}
+
+\begin{frame}{Ordinary actions}
+    Assume the agent performs a \textfluent{drop} action.
+
+    \begin{block}{Informal idea}
+        The agent cannot distinguish the current situation \(s\) from all the other
+        \(s'\) accessible from it. Therefore, after executing the action,
+        the agent may believe to be in any situation resulting from any \(s'\) after executing \textfluent{drop}.
+    \end{block}
+
+    \begin{block}{Axiomatization}
+        \[ \sck(s'', \scdo(\scdrop, s)) \equiv \exists s' \: (\scposs(\scdrop, s') \land \sck(s',s) \land s'' = \scdo(\scdrop, s')) \]
+    \end{block}
 \end{frame}
 
 \begin{frame}{Ordinary actions}
