@@ -72,7 +72,7 @@
         \]
     \end{block}
 
-    \emph{Assumption: ordinary and knowledge-producing actions are strictly separated.}
+    % \emph{Assumption: ordinary and knowledge-producing actions are strictly separated.}
 \end{frame}
 
 \subsection{Defining a successor state axiom for K}
@@ -97,7 +97,7 @@
     \begin{block}{Informal idea}
         The agent cannot distinguish the current situation \(s\) from all the other
         \(s'\) accessible from it. Therefore, after executing the action,
-        the agent may believe to be in any situation resulting from any \(s'\) after executing \textfluent{drop}.
+        the agent may believe to be in any situation resulting from any \(s'\) after executing \scdrop.
     \end{block}
 
     \begin{block}{Axiomatization}
@@ -105,30 +105,13 @@
     \end{block}
 \end{frame}
 
-% \begin{frame}{Ordinary actions}
-%     This axiomatization makes it so that the situations resulting from the \scdrop{} action
-%     are connected in the same way as the original ones.
-
-%     The only knowledge gained is that the \scdrop{} action has been performed, as well as
-%     anything that can be derived from the action effects. For example, if \scdrop{}
-%     makes \scp false:
-
-%     \[ \scp(\scdo(a,s)) \equiv a \not = \scdrop \land \scp(s) \]
-
-%     then
-
-%     \[ \knows(\lnot \scp, \scdo(\scdrop, S1)) \]
-
-%     but no extra knowledge is gained about \scq.
-% \end{frame}
-
 \begin{frame}{Ordinary actions}
     \begin{columns}
         \begin{column}{0.5\textwidth}
-            The only knowledge gained is that the \scdrop{} action has been performed,\\
+            The \textbf{only knowledge gained is that the} \scdrop{} \textbf{action has been performed},\\
             as well as anything that can be derived from the action effects.
             
-            For example, if \scdrop{} makes \scp false:
+            For example, if \scdrop{} makes \scp{} false:
 
             \[ \scp(\scdo(a,s)) \equiv a \not = \scdrop \land \scp(s) \]
 
@@ -146,13 +129,98 @@
 \end{frame}
 
 \begin{frame}{Knowledge-producing actions}
-    Consider an action \( \scsense_{\scq} \)
+    Consider an action \( \scsense_{\scq} \) that provides information on whether \scq{} is true or false.
+
+    We define a \textbf{sensing result function} to represent the signal received by the agent in response:
+
+    \begin{block}{Sensing result function}
+        \[ \scsr(\scsense_{\scq}, s) = r \equiv (r = \scyes \land \scq(s)) \lor (r = \scno \land \lnot \scq(s)) \]
+    \end{block}
+\end{frame}
+
+\begin{frame}{Knowledge-producing actions}
+    \vspace{-0.2cm}
+    When the agent executes \( \scsense_{\scq} \), what are the accessible situations afterwards?
+
+    \begin{block}{Informal definition}
+        Initially, the agent cannot distinguish the current situation \(s\) from all the other
+        \(s'\) accessible from it. Therefore, after executing \( \scsense_{\scq} \),
+        the agent may believe to be in any situation that:
+        \begin{itemize}
+            \item results from any \(s'\) after executing the action,
+            \item \textbf{AND} would yield the same sensing result as the one that has been observed.
+        \end{itemize}
+    \end{block}
+
+    \begin{block}{Axiomatization}
+        \vspace{-0.5cm}
+        \begin{align*}
+            \sck(s'', \scdo(\scsense_{\scq}, s)) \equiv \: & \exists s' \: (\scposs(\scsense_{\scq}, s') \land \sck(s',s) \: \land \\
+            & s'' = \scdo(\scsense_{\scq}, s') \land \scsr(\scsense_{\scq}, s) = \scsr(\scsense_{\scq}, s'))
+        \end{align*}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Knowledge-producing actions}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            After executing \( \scsense_{\scq} \),
+            \textbf{only situations with the same truth value for Q are accessible}.
+
+            Thus, in addition to knowing that \( \scsense_{\scq} \) has been performed,
+            the agent now knows the truth value of \scq{} as well, by definition.
+
+            \[ \knows(\scq, \scdo(\scsense_{\scq}, S1)) \]
+        \end{column}
+
+        \begin{column}{0.5\textwidth}
+            \includegraphics[width=\textwidth]{assets/3states_senseaction}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Sensing results in general}
+    The concept of sensing result extends to all types of action, allowing for a uniform axiomatization.
+
+    \begin{block}{Ordinary actions}
+        \[ \scsr(\scdrop, s) = r \equiv r = \scok \]
+    \end{block}
+
+    \begin{block}{SENSE-type knowledge-producing actions}
+        \[ \scsr(\scsense_{\scq}, s) = r \equiv (r = \scyes \land \scq(s)) \lor (r = \scno \land \lnot \scq(s)) \]
+    \end{block}
+
+    \begin{block}{READ-type knowledge-producing actions}
+        \[ \scsr(\scsense_\tau, s) = r \equiv r = \tau(s) \]
+    \end{block}
 \end{frame}
 
 \begin{frame}{The successor state axiom for K}
-    Pippo
+    Putting it all together, the definitive form is as follows:
+
+    \begin{block}{Successor state axiom for the K fluent}
+        \vspace{-0.5cm}
+        \begin{align*}
+            \sck(s'', \scdo(a, s)) \equiv \exists s' \: (&\scposs(a, s') \land \sck(s',s) \: \land \\
+            & s'' = \scdo(a, s') \land \scsr(a, s) = \scsr(a, s'))
+        \end{align*}
+    \end{block}
+\end{frame}
+
+\begin{frame}{What about... (opzionale)}
+    \begin{itemize}
+        \item \textbf{...mixing ordinary and knowledge effects?} \\
+            We assume that ordinary and knowledge actions are disjoint:
+            each action is going to be axiomatized
+            as either affecting \emph{only} the \sck{} fluent
+            or as not affecting it at all. \\
+            This does not cause loss of generality.
+        \item \textbf{...knowledge of arbitrary formulae?} \\
+            They already work within this system. \\
+            Example: \( \knows(\forall x (\textfluent{man}(x) \rightarrow \textfluent{mortal}(x)) \land \textfluent{man}(Socrates)) \)
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{<varie ed eventuali>}
-    Pippo
+    boh
 \end{frame}
