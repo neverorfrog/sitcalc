@@ -36,9 +36,6 @@
 
     Defines an accessibility relation between situations.
 
-    % Informal definition: \( \sck(s', s) \) is true if, given its current knowledge,
-    % the situations \(s\) and \(s'\) are indistinguishable to the agent.
-
     \begin{block}{(Informal) definition}
         \( \sck(s',s) \) is true if an agent in situation \(s\)
         could mistake the current situation for the other \(s'\),
@@ -60,17 +57,15 @@
     Actions that have an effect on the agent's knowledge
 
     \begin{block}{SENSE actions}
-        % Learn whether a fluent is true or false. Example: check if a door is open or closed.
         Learn the truth value of a formula. Example: check if a door is open or closed.
         \[
-            \knows(\textfluent{P}, \scdo(\scsense_\text{P}, s))
+            \knows(\scp, \scdo(\scsense_{\scp}, s))
             \lor
-            \knows(\lnot \textfluent{P}, \scdo(\scsense_\text{P}, s))
+            \knows(\lnot \scp, \scdo(\scsense_{\scp}, s))
         \]
     \end{block}
 
     \begin{block}{READ actions}
-        % Learn what a functional term refers to. Example: read a number on a sheet of paper.
         Learn the value of a term. Example: read a number on a sheet of paper.
         \[
             \exists x \: \knows(\tau = x, \scdo(\scread_\tau, s))
@@ -83,7 +78,7 @@
 \subsection{Defining a successor state axiom for K}
 
 \begin{frame}{Knowledge effects}
-    In order to complete the specification of the \sck fluent,
+    In order to complete the specification of the \sck{} fluent,
     we need to define its successor state axiom,
     determining how ordinary actions and knowledge-producing actions affect it.
 
@@ -93,7 +88,7 @@
         \includegraphics[width=0.6\textwidth]{assets/3states_noactions.png}
     \end{center}
 
-    \[ \knows(\textfluent{P}, S1) \land \lnot \knows(\textfluent{Q}, S1) \]
+    \[ \knows(\scp, S1) \land \lnot \knows(\scq, S1) \]
 \end{frame}
 
 \begin{frame}{Ordinary actions}
@@ -110,12 +105,48 @@
     \end{block}
 \end{frame}
 
+% \begin{frame}{Ordinary actions}
+%     This axiomatization makes it so that the situations resulting from the \scdrop{} action
+%     are connected in the same way as the original ones.
+
+%     The only knowledge gained is that the \scdrop{} action has been performed, as well as
+%     anything that can be derived from the action effects. For example, if \scdrop{}
+%     makes \scp false:
+
+%     \[ \scp(\scdo(a,s)) \equiv a \not = \scdrop \land \scp(s) \]
+
+%     then
+
+%     \[ \knows(\lnot \scp, \scdo(\scdrop, S1)) \]
+
+%     but no extra knowledge is gained about \scq.
+% \end{frame}
+
 \begin{frame}{Ordinary actions}
-    Pippo
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            The only knowledge gained is that the \scdrop{} action has been performed,\\
+            as well as anything that can be derived from the action effects.
+            
+            For example, if \scdrop{} makes \scp false:
+
+            \[ \scp(\scdo(a,s)) \equiv a \not = \scdrop \land \scp(s) \]
+
+            then
+
+            \[ \knows(\lnot \scp, \scdo(\scdrop, S1)) \]
+
+            but no extra knowledge is gained about \scq.
+        \end{column}
+
+        \begin{column}{0.5\textwidth}
+            \includegraphics[width=\textwidth]{assets/3states_dropaction}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Knowledge-producing actions}
-    Pippo
+    Consider an action \( \scsense_{\scq} \)
 \end{frame}
 
 \begin{frame}{The successor state axiom for K}
