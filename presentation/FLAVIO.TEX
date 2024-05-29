@@ -1,10 +1,12 @@
 
 \begin{frame}{The Problem}
+    \vspace*{-0.5cm}
     \begin{itemize}
         \item A robot has to manage \textbf{n plants} in a garden.
-        \item The robot performs an action on one plant at a time and only if it's near the plant.
-        \item A plant can be watered only if it is dry and the temperature is known.
-        \item The robot has access to a watering can that is full and has unlimited capacity.
+        \item The robot performs an action on one plant at a time.
+        \item \textbf{A plant can be watered only if it is dry and the temperature is known.}
+        \item The robot has access to a watering can with unlimited capacity.
+        \item The robot performs action on an object only if it is near it.
         \item The robot can hold only one object at a time.
     \end{itemize}
 \end{frame}
@@ -18,9 +20,8 @@
             \item $\textsc{Near}(x,s) \rightarrow$ Robot is near object x in situation s
             \item $\textsc{Holding}(x,s) \rightarrow$ Robot is holding object x in situation s
             \item $\textsc{Moist}(p,s) \rightarrow$ Plant p is moist in situation s
-            \item $\textsc{Temperature}(p) \rightarrow$ Temperature value of the spot near plant p
-            % \item $\textsc{Infested}(p,s) \rightarrow$ Plant p is infested in situation s
-            \item $\textsc{HealthyPlants}(s) \rightarrow$ Number of healthy plants
+            \item $\textsc{Temperature}(p,s) \rightarrow$ Temperature value of the spot near plant p
+            \item $\textsc{MoistPlants}(s) \rightarrow$ Number of moist plants
         \end{itemize}
     \end{block}
     \begin{block}{Non-Fluents}
@@ -28,19 +29,21 @@
             \item $\textsc{WateringCan}(x) \rightarrow $ Object x is a watering can
             \item $\textsc{Thermometer}(x) \rightarrow $ Object x is a thermometer
             \item $\textsc{Moisturemeter}(x) \rightarrow $ Object x is a moisturemeter
-            % \item $\textsc{Treatment}(x) \rightarrow $ Object x is a treatment
-            % \item $\textsc{Plant}(x) \rightarrow$ Object x is a plant
         \end{itemize}
     \end{block}
 \end{frame}
 
+% The policy ensures a sharp division between knowledge-producing actions and ordinary
+% actions. Without this policy there is nothing to prevent us from having an action such as
+% open the bag which causes the bag to be open and makes the agent aware of the content of
+% the bag.
 \begin{frame}{Actions}
     \vspace*{-0.5cm}
+    All actions are to be axiomatized as affecting only either the K fluent or other fluents.
     \begin{block}{Normal}
         \begin{itemize}
             \item $\textsc{goto}(x) \rightarrow$ Go to object x
             \item $\textsc{water}(p) \rightarrow$ Water plant p
-            % \item $\textsc{treat}(p) \rightarrow$ Treat plant p
             \item $\textsc{pickup}(x) \rightarrow$ Pick up object x
             \item $\textsc{putdown}(x) \rightarrow$ Put down object x
         \end{itemize}
@@ -49,7 +52,6 @@
         \begin{itemize}
             \item $\textsc{checkmoisture}(p) \rightarrow$ Check moisture of plant p
             \item $\textsc{checktemperature}(p) \rightarrow$ Check the temperature of the spot near plant p
-            % \item $\textsc{checkinfestation}(p) \rightarrow$ Check infestation of plant p
         \end{itemize}
     \end{block}
 \end{frame}
@@ -58,15 +60,15 @@
     \vspace*{-0.5cm}
     \begin{block}{Sensing Result Axioms}
         \begin{itemize}
-            \item $\textsc{sr}(\textsc{goto}(x),s) = r\equiv r = "OK"$
-            \item $\textsc{sr}(\textsc{checkmoisture}(p),s) = r \equiv (r = "YES" \land \textsc{Moist}(p,s)) \lor (r = "NO" \land \neg \textsc{Moist}(p,s))$
+            \item $\textsc{sr}(\textsc{goto}(x),s) = r\equiv r = \scok$
+            \item $\textsc{sr}(\textsc{checkmoisture}(p),s) = r \equiv (r = \scyes \land \textsc{Moist}(p,s)) \lor (r = \scno \land \neg \textsc{Moist}(p,s))$
             % It specifies that after doing the checkmoisture(p) action, the agent knows whether or not p is moist.
             \item $\textsc{sr}(\textsc{checktemperature}(p),s) = r \equiv r = \textsc{Temperature}(p,s)$
         \end{itemize}
     \end{block}
     \begin{block}{Knowledge Action Effects}
         \begin{itemize}
-            \item \textbf{Kwhether}$(\textsc{Moist}(p,s), \textsc{do}(\textsc{checkmoisture}(p),s))$
+            \item \textbf{Kwhether}$(\textsc{Moist}(p), \textsc{do}(\textsc{checkmoisture}(p),s))$
             \item \textbf{Kref}$(\textsc{Temperature}(p), \textsc{do}(\textsc{checktemperature}(p),s))$
         \end{itemize}
     \end{block}
@@ -74,10 +76,11 @@
 
 \begin{frame}{Preconditions}
     \begin{itemize}
-        \item $\textsc{Poss}\left( \textsc{water}(p), s \right) \equiv \textsc{Near}(p,s) \land \textsc{Holding}(x,s) \land \textsc{WateringCan}(x) \land \neg\textsc{Moist}(x,p) \land $ \textbf{Kref}$(\textsc{temperature}(p),s)$
+        \item $\textsc{Poss}\left( \textsc{water}(p), s \right) \equiv \textsc{Near}(p,s) \land \textsc{Holding}(x,s) \land \textsc{WateringCan}(x) \land$ \textbf{Knows}$(\neg\textsc{Moist}(p),s) \land $ \textbf{Kref}$(\textsc{Temperature}(p),s)$
         \item $\textsc{Poss}\left( \textsc{pickup}(x), s \right) \equiv \textsc{Near}(x,s) \land \neg \exists y.\textsc{Holding}(y,s)$
         \item $\textsc{Poss}\left( \textsc{putdown}(x), s \right) \equiv \textsc{Holding}(x,s)$
         \item $\textsc{Poss}\left( \textsc{checkmoisture}(p), s \right) \equiv \textsc{Near}(p,s) \land \textsc{Holding}(x,s) \land \textsc{Moisturemeter}(x)$
+        \item $\textsc{Poss}\left( \textsc{checktemperature}(p), s \right) \equiv \textsc{Near}(p,s) \land \textsc{Holding}(x,s) \land \textsc{Thermometer}(x)$
     \end{itemize}
 \end{frame}
 
@@ -88,13 +91,25 @@
         \item $\textsc{Near}(x,\textsc{do}(\alpha,s)) \equiv \alpha = \textsc{goto}(x)
         \lor \left( \textsc{Near}(x,s) \land \neg \exists
         y.\alpha=\textsc{goto}(y)\right)$
-        \item $\textsc{Holding}(x,\textsc{do}(\alpha,s))\equiv \textsc{pickup}(x) \lor \left( Holding(x,s) \land \neg \exists r.\alpha=\textsc{putdown}(x)\right)$
-        \item $\textsc{Moist}(p,\textsc{do}(\alpha,s)) \equiv \left( \textsc{Moist}(p,s) \land \neg \exists r.\alpha=\textsc{water}(p) \right) \lor \left( \alpha = \textsc{checkhumidity}(p) \land \textsc{sr}(\alpha(p),s)=h \right)$ 
+        \item $\textsc{Holding}(x,\textsc{do}(\alpha,s))\equiv \alpha = \textsc{pickup}(x) \lor \left( Holding(x,s) \land \neg \exists r.\alpha=\textsc{putdown}(x)\right)$
+        \item $\textsc{Moist}(p,\textsc{do}(\alpha,s)) \equiv \alpha = \textsc{water}(p) \lor \left( \textsc{Moist}(p,s) \land \neg \exists r.\alpha = \textsc{water}(p) \right)$ 
         \item $\textsc{Temperature}(p,\textsc{do}(\alpha,s)) \equiv \textsc{Temperature}(p,s)$ 
-        % \item $\textsc{Infested}(p,\textsc{do}(\alpha,s)) \equiv \left(  \textsc{Infested}(p,s) \land \neg \exists r.\alpha=\textsc{treat}(p) \right) \lor \left( \alpha = \textsc{checkinfestation}(p) \land \textsc{sr}(\alpha(p),s)\right)$
-        \item $\textsc{HealthyPlants}(p,\textsc{do}(\alpha,s)) = n \equiv \left( \textsc{HealthyPlants}(p,s) = n-1 \land \alpha = \textsc{water}(p) \right) $
+        \item $\textsc{MoistPlants}(p,\textsc{do}(\alpha,s)) = n \equiv \left( \textsc{MoistPlants}(p,s) = n-1 \land \alpha = \textsc{water}(p) \right) 
+        \lor \left( \textsc{MoistPlants}(p,s) = n\right)$
     \end{itemize}
 \end{frame}
+
+\begin{frame}{Theorems}
+    \begin{enumerate}
+        \item Knowledge-producing actions do not change the state of the world. If $\scp(s)$ then $\scp(\scdo(\alpha, s))$, given that $\alpha$ is knowledge-producing and $\scp$ is not $\sck$
+        \item Nothing is learned about $\scp$ by doing action $\alpha$, as long as $\alpha$ does not affect $\scp$.
+        \item Agents know the consequences of knowledge acquired through knowledge-producing actions.
+        \item If the agent knows $\scp$ at $s$, then $\scp$ is also known at $\scdo (\alpha,s)$ as long as the effect of $\alpha$ is not to make $\scp$ false.
+        \item Agents know the effects of (ordinary) actions.
+    \end{enumerate}
+\end{frame}
+
+\subsection{Instantiation}
 
 \begin{frame}[fragile]{Initial Situation}
     \begin{itemize}
@@ -106,25 +121,58 @@
         \item $\textsc{Plant}(p_n)$
         \item $\textsc{Near}(c)$
     \end{itemize}
+    \begin{block}{Goal}
+        Have $n$ moist plants, namely $\textsc{MoistPlants}(p,s) = n$
+    \end{block}
 \end{frame}
 
-% \subsection{Considerations}
-
-% \begin{frame}{Theorem}
-    
-% \end{frame}
-
-\subsection{Golog}
-
-\begin{frame}{Encoding}
-    \begin{algorithmic}[1]
-        \While{$\neg \mathbf{Knows}(\textsc{HealthyPlants}(s) = n)$}
-            \textsc{goto}(p)
-            Ok
-        \EndWhile
-    \end{algorithmic}
+\begin{frame}{Solution}
+    For every plant $p$, with the following situations
+    \hspace*{-1cm}
+    \begin{minipage}{\linewidth}
+        \vspace{5pt}
+        $\textsc{S}_1 = \\ \textsc{do}(\textsc{putdown}(m),\textsc{do}(\textsc{checkmoisture}(p), \textsc{do}(\textsc{goto}(p),\textsc{do}(\textsc{pickup}(m),\textsc{do}(\textsc{goto}(m),\textsc{S}_0)))))$
+        $\textsc{S}_2 = \\ \textsc{do}(\textsc{putdown}(t),\textsc{do}(\textsc{checktemperature}(p), \textsc{do}(\textsc{pickup}(t),\textsc{do}(\textsc{goto}(t),\textsc{S}_1))))$ 
+        $\textsc{S}_3 = \\ \textsc{do}(\textsc{putdown}(c),\textsc{do}(\textsc{water}(p), \textsc{do}(\textsc{pickup}(c),\textsc{do}(\textsc{goto}(c),\textsc{S}_2))))$
+    \end{minipage} \\
+    \vspace{15pt}
+    In the end, we need to entail that $\textsc{MoistPlants}(p, s) = n$ \\
+    We can use the successor state axioms for that
 \end{frame}
 
-\begin{frame}{Example Run}
+\begin{frame}{Legality testing (with a different $S_0$)}
+    \centering
+    $\textsc{do}(\textsc{water}(p), \textsc{do}(\textsc{pickup}(c),\textsc{do}(\textsc{goto}(c),\textsc{S}_0)))$ \\
+    $\Downarrow$ \\
+    We need to entail \\$\textsc{Near}(p,\textsc{S}_0) \land \textsc{Holding}(t,\textsc{S}_0) \land 
+    \textsc{Thermometer}(t,\textsc{S}_0) \land$ \textbf{Knows}$(\textsc{Moist}(p,\textsc{S}_0)) \land$ \textbf{Kref}$(\textsc{Temperature}(p),\textsc{do}(\textsc{checktemperature}(p),\textsc{S}_0))$ \\
+    $\Downarrow$ \\
+    $\exists y.y = \textsc{Temperature}(p,s)$
+
     
+
+\end{frame}
+
+\begin{frame}[fragile]{Golog}
+    \vspace*{-1.5cm}
+    \hspace*{2.5cm}
+    \begin{minipage}{\linewidth}
+        \begin{algorithmic}[1]
+            \While{$\neg \mathbf{Knows}(\textsc{HealthyPlants} = n)$} \\
+            \quad ($\mathit{\Pi}$p) \textsc{goto}(p); \\
+            \quad \quad $\textsc{checkmoisture}(p)$; \\
+            \quad \quad \textbf{if Knows}$(\neg \textsc{Moist}(p))$ \\
+            \quad \quad \quad \textsc{goto}(t); \\
+            \quad \quad \quad \quad \textsc{pickup}(t); \\
+            \quad \quad \quad \quad \textsc{goto}(p); \\
+            \quad \quad \quad \quad $\textsc{checktemperature}(p)$; \\
+            \quad \quad \quad \quad \textsc{putdown}(t); \\
+            \quad \quad \quad \textsc{goto}(c); \\
+            \quad \quad \quad \quad \textsc{pickup}(c); \\
+            \quad \quad \quad \quad \textsc{goto}(p); \\
+            \quad \quad \quad \quad $\textsc{water}(p)$; \\
+            \quad \quad \quad \quad \textsc{putdown}(c);
+            \EndWhile
+        \end{algorithmic}
+    \end{minipage}
 \end{frame}
