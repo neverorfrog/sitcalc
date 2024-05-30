@@ -127,13 +127,15 @@
 \end{frame}
 
 \begin{frame}{Solution}
+    \vspace*{-1cm}
     For every plant $p$, with the following situations
     \hspace*{-1cm}
-    \begin{minipage}{\linewidth}
+    \centering
+    \begin{minipage}{0.8\linewidth}
         \vspace{5pt}
-        $\textsc{S}_1 = \\ \textsc{do}(\textsc{putdown}(m),\textsc{do}(\textsc{checkmoisture}(p), \textsc{do}(\textsc{goto}(p),\textsc{do}(\textsc{pickup}(m),\textsc{do}(\textsc{goto}(m),\textsc{S}_0)))))$
-        $\textsc{S}_2 = \\ \textsc{do}(\textsc{putdown}(t),\textsc{do}(\textsc{checktemperature}(p), \textsc{do}(\textsc{pickup}(t),\textsc{do}(\textsc{goto}(t),\textsc{S}_1))))$ 
-        $\textsc{S}_3 = \\ \textsc{do}(\textsc{putdown}(c),\textsc{do}(\textsc{water}(p), \textsc{do}(\textsc{pickup}(c),\textsc{do}(\textsc{goto}(c),\textsc{S}_2))))$
+        $\textsc{S}_1 = \\ \textsc{do}(\textsc{putdown}(m),\textsc{do}(\textsc{checkmoisture}(p), \\\textsc{do}(\textsc{goto}(p),\textsc{do}(\textsc{pickup}(m),\textsc{do}(\textsc{goto}(m),\textsc{S}_0)))))$ \\
+        $\textsc{S}_2 = \\ \textsc{do}(\textsc{putdown}(t),\textsc{do}(\textsc{checktemperature}(p), \\\textsc{do}(\textsc{pickup}(t),\textsc{do}(\textsc{goto}(t),\textsc{S}_1))))$ \\
+        $\textsc{S}_3 = \\ \textsc{do}(\textsc{putdown}(c),\textsc{do}(\textsc{water}(p), \\\textsc{do}(\textsc{pickup}(c),\textsc{do}(\textsc{goto}(c),\textsc{S}_2))))$
     \end{minipage} \\
     \vspace{15pt}
     In the end, we need to entail that $\textsc{MoistPlants}(p, s) = n$ \\
@@ -142,15 +144,12 @@
 
 \begin{frame}{Legality testing (with a different $S_0$)}
     \centering
-    $\textsc{do}(\textsc{water}(p), \textsc{do}(\textsc{pickup}(c),\textsc{do}(\textsc{goto}(c),\textsc{S}_0)))$ \\
+    $\textsc{do}(\textsc{water}(p), \textsc{do}(\textsc{pickup}(c),\textsc{do}(\textsc{goto}(c),\textsc{do}(\textsc{putdown}(t),\textsc{S}_0))))$ \\
     $\Downarrow$ \\
     We need to entail \\$\textsc{Near}(p,\textsc{S}_0) \land \textsc{Holding}(t,\textsc{S}_0) \land 
-    \textsc{Thermometer}(t,\textsc{S}_0) \land$ \textbf{Knows}$(\textsc{Moist}(p,\textsc{S}_0)) \land$ \textbf{Kref}$(\textsc{Temperature}(p),\textsc{do}(\textsc{checktemperature}(p),\textsc{S}_0))$ \\
+    \textsc{Thermometer}(t,\textsc{S}_0) \land$ \textbf{Knows}$(\neg \textsc{Moist}(p,\textsc{S}_0)) \land$ \textbf{Kref}$(\textsc{Temperature}(p),\textsc{do}(\textsc{checktemperature}(p),\textsc{S}_0))$ \\
     $\Downarrow$ \\
     $\exists y.y = \textsc{Temperature}(p,s)$
-
-    
-
 \end{frame}
 
 \begin{frame}[fragile]{Golog}
